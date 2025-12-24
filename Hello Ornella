@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Untuk Kamu</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      background-image: url('Desain tanpa judul (1).jpg');
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+
+    .container {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      backdrop-filter: brightness(0.8) blur(1.5px);
+      padding: 20px;
+    }
+
+    .pesan-romantis {
+      font-size: 22px;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.55);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      max-width: 650px;
+      min-height: 140px;
+      margin-bottom: 20px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .typing {
+      display: inline-block;
+      border-right: 2px solid #fff;
+      white-space: normal;
+      word-break: break-word;
+      animation: blink 0.7s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: #fff; }
+    }
+
+    button {
+      padding: 12px 26px;
+      font-size: 16px;
+      background-color: #ff66a6;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff4d94;
+    }
+
+    .heart {
+      position: fixed;
+      top: -20px;
+      color: #ff69b4;
+      animation: fall 5s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="pesan-romantis">
+      <span id="typedText" class="typing"></span>
+    </div>
+    <button id="btnLanjut" onclick="tampilkanBerikutnya()">
+      Klik Aku, Sayang 💖
+    </button>
+  </div>
+
+  <!-- Musik Latar -->
+  <audio id="bgMusic" loop>
+    <source src="FINALLY bisa ikutan trend gemas inii.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Suara Klik -->
+  <audio id="klikAudio">
+    <source src="click.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const pesan = [
+      "Untuk kamu, orang yang paling aku sayang ya, kamu — Ornella.",
+
+      "Ornella berasal dari bahasa Italia yang berarti pohon ash yang berbunga. Aku memilih nama itu untuk kamu, karena Ornella menggambarkan keindahan yang tenang, sama seperti mata kamu. Mata yang indah dan sangat sulit untuk dilupakan.",
+
+      "Warna Ornella lembut. Orang mungkin tidak langsung kagum saat melihatnya, tetapi setelah pergi, mereka akan terus mengingat bunga itu. Begitu juga dengan caramu berbicara dan caramu berinteraksi, semua itu membuat orang merasa nyaman berada di dekatmu.",
+
+      "Ornella ada bukan untuk dipamerkan, melainkan untuk dirasakan. Ia indah bukan karena mencolok, tetapi karena meninggalkan rasa. Kesan bisa hilang, tetapi perasaan tidak, karena rasa sulit untuk digantikan.",
+
+      "Ornella tidak pernah meminta untuk dilihat. Ia hanya ingin hadir apa adanya. Namun justru karena itu, orang-orang ingin memperhatikannya. Dan itu sangat mirip dengan kamu.",
+
+      "Dari pacar kamu yang paling kamu sayang — Huckleberry ❤️"
+    ];
+
+    let step = 0;
+
+    function tampilkanBerikutnya() {
+      const klikAudio = document.getElementById("klikAudio");
+      const bgMusic = document.getElementById("bgMusic");
+
+      klikAudio.play();
+
+      if (step === 0 && bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+      }
+
+      const textEl = document.getElementById("typedText");
+      textEl.textContent = "";
+
+      if (step < pesan.length) {
+        ketik(pesan[step], 45);
+        step++;
+
+        if (step === pesan.length) {
+          mulaiHujanHati();
+          setTimeout(() => {
+            document.getElementById("btnLanjut").style.display = "none";
+          }, pesan[step - 1].length * 50);
+        }
+      }
+    }
+
+    function ketik(teks, kecepatan) {
+      const el = document.getElementById("typedText");
+      let i = 0;
+      function ketikHuruf() {
+        if (i < teks.length) {
+          el.textContent += teks.charAt(i);
+          i++;
+          setTimeout(ketikHuruf, kecepatan);
+        }
+      }
+      ketikHuruf();
+    }
+
+    function mulaiHujanHati() {
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = Math.random() * 22 + 12 + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }, 300);
+    }
+  </script>
+
+</body>
+</html>
